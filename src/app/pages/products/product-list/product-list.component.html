@@ -1,0 +1,60 @@
+<mat-drawer-container class="drawer-container">
+  <mat-drawer #drawer class="filter-box" mode="side" opened>
+    <app-product-filter #productFilter (updateProducts)="updateProducts($event)" (switchProductsLoading)="switchLoading($event)" [page]="page" [limit]="limit" [order]="order"></app-product-filter>
+  </mat-drawer>
+
+    <mat-drawer-content>
+      <!--Toolbar-->
+      <mat-toolbar class="product-toolbar">
+        <mat-chip-list>
+          <!--FILTER TAGS-->
+
+          <!--Sliders tag-->
+        <div *ngFor="let item of productFilter.selectedFilterOptions.sliders | keyvalue">
+          <mat-chip class="filter-tag"
+            *ngIf="(item.value.lte || item.value.gte)"
+                    (click)="productFilter.deleteTag('slider', item.key)">
+            <span> {{ item.value.lte }} - {{item.value.gte }}  UAH <mat-icon class="close-icon">close</mat-icon> </span>
+          </mat-chip>
+        </div>
+
+          <!--Checkboxes tag-->
+          <mat-chip class="filter-tag" *ngFor="let item of productFilter.selectedFilterOptions.checkboxes.getCheckboxList()" (click)="productFilter.deleteTag('checkbox', item.property, item)">
+            <span> {{item.name}} <mat-icon class="close-icon">close</mat-icon> </span>
+          </mat-chip>
+
+        </mat-chip-list>
+
+        <!--Sort products-->
+        <div class="sort-selection-block">
+          <select class="sort-selection" required [(ngModel)]="selectedSortOption" (ngModelChange)="sortProducts($event.order)" #selection>
+            <option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption">{{sortOption.title}}</option>
+          </select>
+        </div>
+
+      </mat-toolbar>
+
+      <!--PRODUCTS LIST-->
+      <div class="grid grid-pad">
+        <mat-spinner *ngIf="loading" style="margin: 50px auto"></mat-spinner>
+        <div *ngIf="!loading">
+          <div class="col-1-4 product-block" *ngFor="let product of products" routerLink="../details/{{product.id}}">
+            <mat-card>
+              <img mat-card-image [src]="product.imagePath" class="product-image">
+              <mat-card-actions>
+                <a class="product-title">{{product.title}}</a>
+                <br>
+                <span>{{product.price | currency: 'UAH '}}</span>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+
+          <div class="col-1-1 pagination-block">
+            <ngb-pagination class="pagination" [collectionSize]="50" [(page)]="page" [boundaryLinks]="true" (pageChange)="switchPage(productFilter.selectedFilterOptions)"></ngb-pagination>
+          </div>
+
+        </div>
+      </div>
+
+    </mat-drawer-content>
+</mat-drawer-container>

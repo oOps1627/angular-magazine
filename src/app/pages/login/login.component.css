@@ -1,0 +1,12 @@
+.login-form {
+  width: 300px;
+  margin: 50px auto;
+}
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+.visible-icon {
+  cursor: pointer;
+  user-select: none;
+}

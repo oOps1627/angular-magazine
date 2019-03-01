@@ -1,0 +1,60 @@
+<div class="wrapper" *ngIf="!loading">
+
+  <!--SEARCH PRODUCTS-->
+  <div id="search-product" class="filter-container">
+    <mat-form-field class="example-full-width">
+      <input type="text" placeholder="search" matInput [formControl]="searchControl" [matAutocomplete]="auto" (keyup.enter)="search()">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let product of foundProducts | async" [value]="product.title" routerLink="../details/{{product.id}}">
+            {{product.title}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-button class="btn-search">
+      <i class="material-icons" (click)="search()">search</i>
+    </button>
+    <hr>
+  </div>
+
+  <!--FILTER BY PRICE-->
+  <div class="filter-container">
+    <h5>Price, UAH</h5>
+    <!--Slider-->
+    <npn-slider
+      [min]="receivedFilterOptions.sliders.price.lte"
+      [max]="receivedFilterOptions.sliders.price.gte"
+      [minSelected]="currentSlidersValues.price.lte"
+      [maxSelected]="currentSlidersValues.price.gte"
+      (onChange)="onSliderChange('price', $event)"
+    ></npn-slider>
+    <div class="price-inputs">
+        <input type="number" name="min" [(ngModel)]="currentSlidersValues.price.lte"> -
+        <input type="number" name="max" [(ngModel)]="currentSlidersValues.price.gte">
+    </div>
+    <hr>
+  </div>
+
+<!--FILTER BY MODEL-->
+  <div class="filter-container">
+    <h5>Models</h5>
+      <div class="checkbox-list">
+        <mat-checkbox *ngFor="let checkbox of receivedFilterOptions.checkboxes.manufacturer" [(ngModel)]="checkbox.checked" class="checkbox" name="manufacturer">
+          {{checkbox.name}}
+        </mat-checkbox>
+     </div>
+    <hr>
+  </div>
+
+  <div class="filter-container">
+    <h5>Camera</h5>
+    <div class="checkbox-list">
+      <mat-checkbox *ngFor="let checkbox of receivedFilterOptions.checkboxes.camera" [(ngModel)]="checkbox.checked" class="checkbox" name="camera">
+        {{checkbox.name}} Mpx
+      </mat-checkbox>
+    </div>
+    <hr>
+  </div>
+
+  <button mat-button (click)="onFilter()">Ok</button>
+
+</div>

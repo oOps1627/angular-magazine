@@ -1,0 +1,17 @@
+<form [formGroup]="registerForm" class="register-form" (submit)="register()">
+
+  <mat-form-field>
+    <input matInput formControlName="username" name="username" placeholder="Username">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput formControlName="firstName" placeholder="First Name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Enter your password" formControlName="password" [type]="hide ? 'password' : 'text'">
+    <mat-icon matSuffix (click)="hide = !hide" class="visible-icon">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+  </mat-form-field>
+
+  <button mat-button type="submit">Register</button>
+</form>

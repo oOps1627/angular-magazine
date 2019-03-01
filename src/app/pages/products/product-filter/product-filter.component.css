@@ -1,0 +1,21 @@
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background-color: #1c9c4e !important;
+}
+hr {
+  margin-top: 15px;
+}
+.price-inputs input {
+  width: 80px;
+}
+.btn-search {
+  min-width: 40px;
+  padding: 0 10px;
+  margin: 5px;
+  line-height: 30px;
+}
+.checkbox-list {
+  text-align: left;
+}
+.checkbox {
+  display: block;
+}

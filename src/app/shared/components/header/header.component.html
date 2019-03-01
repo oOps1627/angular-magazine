@@ -1,0 +1,16 @@
+<mat-toolbar class="header">
+  <span class="logo" routerLink="">My Shop</span>
+
+
+    <div class="auth-btn-block" *ngIf="!isAuth">
+      <button mat-button routerLink="/register">Register</button>
+      <button mat-button routerLink="/login">Login</button>
+    </div>
+
+    <div class="auth-btn-block" *ngIf="isAuth">
+      <button mat-button (click)="logout()">Logout</button>
+      <span class="greet">Hello, {{currentUser.firstName}}</span>
+    </div>
+
+
+</mat-toolbar>

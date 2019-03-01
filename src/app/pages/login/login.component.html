@@ -1,0 +1,13 @@
+ <form [formGroup]="loginForm" (submit)="login()" class="login-form">
+    <mat-form-field>
+      <input matInput placeholder="Username" name="username" formControlName="username">
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput placeholder="Enter your password" name="password" formControlName="password" [type]="hide ? 'password' : 'text'">
+      <mat-icon matSuffix (click)="hide = !hide" class="visible-icon">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+    </mat-form-field>
+
+    <mat-error>{{errMessage}}</mat-error>
+    <button mat-button class="login-button" type="submit">Login</button>
+ </form>
