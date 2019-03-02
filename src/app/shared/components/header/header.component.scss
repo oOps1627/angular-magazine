@@ -10,8 +10,10 @@
   right: 5px;
   margin-right: 10px;
 }
-.auth-buttons button {
-  min-width: 50px;
+.auth-buttons {
+  button {
+    min-width: 50px;
+  }
 }
 .greet {
   font-size: 15px;

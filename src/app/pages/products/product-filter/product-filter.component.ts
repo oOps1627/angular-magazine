@@ -10,7 +10,7 @@ import {FormControl} from '@angular/forms';
 @Component({
   selector: 'app-product-filter',
   templateUrl: 'product-filter.component.html',
-  styleUrls: ['product-filter.component.css']
+  styleUrls: ['product-filter.component.scss']
 })
 export class ProductFilterComponent implements OnInit {
   @Output() updateProducts = new EventEmitter<Product[]>(); // send new products to ProductListComponent

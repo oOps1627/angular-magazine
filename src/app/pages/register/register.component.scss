@@ -1,11 +1,10 @@
 .register-form {
   width: 300px;
   margin: 50px auto;
-}
-.register-form {
   display: flex;
   flex-direction: column;
 }
+
 .visible-icon {
   cursor: pointer;
   user-select: none;

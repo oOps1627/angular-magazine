@@ -23,10 +23,11 @@
   cursor: pointer;
   font-size: 12px;
   padding: 5px 10px;
+  &:hover {
+    color: red;
+  }
 }
-.filter-tag:hover {
-  color: red;
-}
+
 .close-icon {
   font-size: 16px;
   height: 16px;
