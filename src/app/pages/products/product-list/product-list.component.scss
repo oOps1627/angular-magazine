@@ -22,20 +22,20 @@
 
 .filter-tag {
   cursor: pointer;
-  font-size: 12px;
+  font-size: 14px;
   padding: 5px 10px;
+  span {
+    margin-top: 5px;
+    display:inline-flex;
+    vertical-align: middle;
+  }
   &:hover {
     color: red;
   }
-  span {
-    font-size: 12px;
-    margin: 5px;
-  }
   .close-icon {
     font-size: 16px;
-    height: 16px;
     width: 16px;
-    margin-left: 2px;
+    margin-left: 5px;
   }
 }
 
