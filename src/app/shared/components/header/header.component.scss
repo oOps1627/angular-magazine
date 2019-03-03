@@ -1,20 +1,18 @@
 .header {
-  padding: 10px;
+  display: flex;
+  padding: 10px 20px;
+  justify-content: flex-start;
 }
 .logo {
   cursor: pointer;
 }
 .auth-btn-block {
-  position: absolute;
-  z-index: 2;
-  right: 5px;
-  margin-right: 10px;
-}
-.auth-buttons {
+  margin-left: auto;
   button {
-    min-width: 50px;
+    margin: 10px;
   }
 }
+
 .greet {
   font-size: 15px;
   font-style: italic;

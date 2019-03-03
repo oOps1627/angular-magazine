@@ -26,7 +26,7 @@
         </mat-chip-list>
 
         <!--Sort products-->
-        <div class="sort-selection-block">
+        <div class="sort-selection-box">
           <select class="sort-selection" required [(ngModel)]="selectedSortOption" (ngModelChange)="sortProducts($event.order)" #selection>
             <option *ngFor="let sortOption of sortOptions" [ngValue]="sortOption">{{sortOption.title}}</option>
           </select>
@@ -38,20 +38,25 @@
 
         <mat-spinner *ngIf="loading" style="margin: 50px auto"></mat-spinner>
 
-          <div class="grid product-list" *ngIf="!loading">
-            <div class="product-box" *ngFor="let product of products" routerLink="../details/{{product.id}}">
-              <mat-card>
-                <img mat-card-image [src]="product.imagePath" class="product-image">
-                <mat-card-actions>
-                  <a class="product-title">{{product.title}}</a>
-                  <br>
-                  <span>{{product.price | currency: 'UAH '}}</span>
-                </mat-card-actions>
-              </mat-card>
+        <section>
+          <div class="container">
+            <div class="grid product-list" *ngIf="!loading">
+              <div class="product-box" *ngFor="let product of products" routerLink="../details/{{product.id}}">
+                <mat-card>
+                  <img mat-card-image [src]="product.imagePath" class="product-image">
+                  <mat-card-actions>
+                    <a class="product-title">{{product.title}}</a>
+                    <br>
+                    <span>{{product.price | currency: 'UAH '}}</span>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
             </div>
           </div>
+        </section>
 
-          <div class="pagination-block">
+
+          <div class="pagination-box">
             <ngb-pagination class="pagination" [collectionSize]="50" [(page)]="page" [boundaryLinks]="true" (pageChange)="switchPage(productFilter.selectedFilterOptions)"></ngb-pagination>
           </div>
 
