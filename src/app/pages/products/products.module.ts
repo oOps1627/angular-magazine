@@ -28,8 +28,7 @@ import {
 } from '@angular/material';
 import { MatIconModule } from '@angular/material/icon';
 import { NpnSliderModule } from 'npn-slider';
-// Bootstrap
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { PaginatorComponent } from '../../features/paginator/paginator.component';
 
 @NgModule({
   imports: [
@@ -53,14 +52,14 @@ import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
     MatAutocompleteModule,
     MatInputModule,
     MatTabsModule,
-
-    NgbPaginationModule,
   ],
   declarations: [
     ProductsComponent,
     ProductListComponent,
     ProductDetailsComponent,
-    ProductFilterComponent
+    ProductFilterComponent,
+
+    PaginatorComponent
   ],
   exports: [
     ProductsComponent,

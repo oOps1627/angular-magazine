@@ -1,0 +1,5 @@
+<div>
+  <button>Prev</button>
+  <button *ngFor="let pageNum of getPages()" [ngClass]="{'active': pageNum === page}" (click)="changePage(pageNum)">{{ pageNum }}</button>
+  <button>Next</button>
+</div>

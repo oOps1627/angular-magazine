@@ -57,7 +57,8 @@
 
 
           <div class="pagination-box">
-            <ngb-pagination class="pagination" [collectionSize]="20" [(page)]="page" [boundaryLinks]="true" (pageChange)="switchPage(productFilter.selectedFilterOptions)"></ngb-pagination>
+            <app-paginator [(page)]="page" (pageChange)="switchPage(productFilter.selectedFilterOptions)"></app-paginator>
+            <!--<ngb-pagination class="pagination" [collectionSize]="20" [(page)]="page" [boundaryLinks]="true" (pageChange)="switchPage(productFilter.selectedFilterOptions)"></ngb-pagination>-->
           </div>
 
 
