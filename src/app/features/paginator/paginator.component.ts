@@ -18,8 +18,18 @@ export class PaginatorComponent {
     return [1, 2, 3, 4];
   }
 
-  changePage(page) {
+  goToPage(page) {
     this.page = page;
     this.pageChange.emit(page);
+  }
+
+  goPrev() {
+    this.page--;
+    this.pageChange.emit(this.page);
+  }
+
+  goNext() {
+    this.page++;
+    this.pageChange.emit(this.page);
   }
 }
