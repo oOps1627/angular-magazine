@@ -1,5 +1,7 @@
-<div>
-  <button (click)="goPrev()" [disabled]="page === 1" >Prev</button>
+<div *ngIf="totalItems > 0" class="wrapper">
+  <button (click)="goTop()" [disabled]="page === 1"> <mat-icon>first_page</mat-icon> </button>
+  <button (click)="goPrev()" [disabled]="page === 1"> <mat-icon>chevron_left</mat-icon> </button>
   <button *ngFor="let pageNum of getPages()" [ngClass]="{'active': pageNum === page}" (click)="goToPage(pageNum)">{{ pageNum }}</button>
-  <button (click)="goNext()">Next</button>
+  <button (click)="goNext()" [disabled]="checkIsLastPage()"> <mat-icon>chevron_right</mat-icon> </button>
+  <button (click)="goEnd()" [disabled]="checkIsLastPage()"> <mat-icon>last_page</mat-icon> </button>
 </div>

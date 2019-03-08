@@ -41,7 +41,6 @@ export class ProductListComponent implements OnInit {
   }
 
   switchPage(selectedFilterOptions: FilterOptions) {
-    console.log(this.page);
     this.getProducts(this.page, this.limit, this.order, selectedFilterOptions);
   }
 

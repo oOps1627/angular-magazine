@@ -6,16 +6,34 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
   styleUrls: ['paginator.component.scss']
 })
 export class PaginatorComponent {
+  @Input() perPage = 10;
+  @Input() pagesToShow = 5;
   @Input() page: number;
-  @Input() perPage: number;
   @Input() totalItems: number;
-  @Input() pagesToShow: number;
   @Output() pageChange = new EventEmitter<number>();
 
   constructor() {}
 
   getPages(): number[] {
-    return [1, 2, 3, 4];
+    let numberOfPages = Math.ceil(this.totalItems / this.perPage);
+    let pages = [];
+    pages.push(this.page);
+    for (let i = 0; i < this.pagesToShow - 1; i++) {
+      if (pages.length < this.pagesToShow) {
+        let min = Math.min.apply(null, pages);
+        if (min > 1) {
+          pages.push(min - 1);
+        }
+      }
+      if (pages.length < this.pagesToShow) {
+        let max = Math.max.apply(null, pages);
+        if (max < numberOfPages) {
+          pages.push(max + 1);
+        }
+      }
+    }
+    pages.sort((a, b) => a - b);
+    return pages;
   }
 
   goToPage(page) {
@@ -31,5 +49,19 @@ export class PaginatorComponent {
   goNext() {
     this.page++;
     this.pageChange.emit(this.page);
+  }
+
+  goTop() {
+    this.page = 1;
+    this.pageChange.emit(this.page);
+  }
+
+  goEnd() {
+    this.page = Math.ceil(this.totalItems / this.perPage);
+    this.pageChange.emit(this.page);
+  }
+
+  checkIsLastPage() {
+    return this.page * this.perPage >= this.totalItems;
   }
 }
