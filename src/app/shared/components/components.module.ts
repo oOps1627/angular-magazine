@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { AppRoutingModule } from '../../app.routing.module';
 
 import {
   MatToolbarModule,
   MatButtonModule,
   MatExpansionModule,
+  MatMenuModule,
+  MatIconModule
 } from '@angular/material';
-import { AppRoutingModule } from '../../app.routing.module';
-
 import { HeaderComponent } from './header/header.component';
-import {BrowserModule} from '@angular/platform-browser';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -17,6 +19,8 @@ import {BrowserModule} from '@angular/platform-browser';
     MatToolbarModule,
     MatButtonModule,
     MatExpansionModule,
+    MatMenuModule,
+    MatIconModule
     ],
   declarations: [
     HeaderComponent

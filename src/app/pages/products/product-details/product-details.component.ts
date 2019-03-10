@@ -21,7 +21,13 @@ export class ProductDetailsComponent implements OnInit {
 
   getProduct(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    this.productService.getProduct(id).subscribe(product => this.product = product);
+    this.productService.getProduct(id).subscribe(product => {
+      if (product) {
+        this.product = product;
+      } else {
+       window.location.href = './404';
+      }
+    });
   }
 
   goBack(): void {

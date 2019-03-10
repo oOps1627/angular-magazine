@@ -4,7 +4,7 @@ import { FilterOptions } from './filter-options.model';
 import { environment } from '../../../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import {catchError, map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +48,11 @@ export class ProductService {
         }
       }
     }
-      return this.http.get<Product[]>(url, {params: httpParams}).pipe(
+      return this.http.get<any>(url, {params: httpParams}).pipe(
+        map((response) => {
+          let res = JSON.parse(response);
+          return res.data;
+        }),
         catchError(this.handleError<Product[]>())
       );
   }

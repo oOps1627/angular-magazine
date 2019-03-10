@@ -42,7 +42,7 @@
           <div class="container">
             <div class="grid product-list" *ngIf="!loading">
               <div class="product-box" *ngFor="let product of products" routerLink="../details/{{product.id}}">
-                <mat-card>
+                <mat-card class="product-card">
                   <img mat-card-image [src]="product.imagePath" class="product-image">
                   <mat-card-actions>
                     <a class="product-title">{{product.title}}</a>

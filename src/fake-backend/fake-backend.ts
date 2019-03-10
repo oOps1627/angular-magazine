@@ -78,9 +78,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
         filteredProducts = this.sortProducts(order, filteredProducts);
         currentFilteredProducts = filteredProducts;
+        let count = filteredProducts.length;
         filteredProducts = this.getProductsInPage(page, limit, filteredProducts);
-
-        return of(new HttpResponse({status: 200, body: filteredProducts} ));
+        let params = JSON.stringify({
+          data: filteredProducts,
+          meta: { total:  count }
+        });
+        return of(new HttpResponse({status: 200, body: params} ));
       }
 
       // SEARCH PRODUCTS

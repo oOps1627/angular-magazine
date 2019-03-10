@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { ProductsModule } from './products/products.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule, MatInputModule } from '@angular/material';
@@ -22,11 +23,13 @@ import { MatButtonModule } from '@angular/material/button';
   declarations: [
     LoginComponent,
     RegisterComponent,
+    NotFoundComponent
   ],
   exports: [
     ProductsModule,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    NotFoundComponent
   ]
 })
 export class PagesModule {

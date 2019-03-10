@@ -7,8 +7,13 @@
   </div>
 
   <div class="auth-btn-block" *ngIf="isAuth">
-    <button mat-button (click)="logout()">Logout</button>
-    <span class="greet">Hello, {{currentUser.firstName}}</span>
+    <button mat-button [matMenuTriggerFor]="userMenu" class="user-greet" >Hello, {{currentUser.firstName}}<mat-icon>arrow_drop_down</mat-icon></button>
+      <mat-menu #userMenu="matMenu" class="user-menu">
+        <button mat-menu-item><mat-icon>person</mat-icon> My Profile</button>
+        <button mat-menu-item><mat-icon>shopping_cart</mat-icon> Basket</button>
+        <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Logout </button>
+      </mat-menu>
+
   </div>
 
 </mat-toolbar>

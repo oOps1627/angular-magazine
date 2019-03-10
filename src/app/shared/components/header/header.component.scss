@@ -8,12 +8,12 @@
 }
 .auth-btn-block {
   margin-left: auto;
-  button {
-    margin: 10px;
-  }
 }
+.user-greet {
+  position: relative;
+  .user-menu {
+    position: absolute;
+    top: -100px
+  }
 
-.greet {
-  font-size: 15px;
-  font-style: italic;
 }

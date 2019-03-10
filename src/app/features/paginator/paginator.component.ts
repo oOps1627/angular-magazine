@@ -15,18 +15,18 @@ export class PaginatorComponent {
   constructor() {}
 
   getPages(): number[] {
-    let numberOfPages = Math.ceil(this.totalItems / this.perPage);
-    let pages = [];
+    const numberOfPages = Math.ceil(this.totalItems / this.perPage);
+    const pages = [];
     pages.push(this.page);
     for (let i = 0; i < this.pagesToShow - 1; i++) {
       if (pages.length < this.pagesToShow) {
-        let min = Math.min.apply(null, pages);
+        const min = Math.min.apply(null, pages);
         if (min > 1) {
           pages.push(min - 1);
         }
       }
       if (pages.length < this.pagesToShow) {
-        let max = Math.max.apply(null, pages);
+        const max = Math.max.apply(null, pages);
         if (max < numberOfPages) {
           pages.push(max + 1);
         }
@@ -38,30 +38,34 @@ export class PaginatorComponent {
 
   goToPage(page) {
     this.page = page;
-    this.pageChange.emit(page);
+    this.emitChange();
   }
 
   goPrev() {
     this.page--;
-    this.pageChange.emit(this.page);
+    this.emitChange();
   }
 
   goNext() {
     this.page++;
-    this.pageChange.emit(this.page);
+    this.emitChange();
   }
 
   goTop() {
     this.page = 1;
-    this.pageChange.emit(this.page);
+    this.emitChange();
   }
 
   goEnd() {
     this.page = Math.ceil(this.totalItems / this.perPage);
-    this.pageChange.emit(this.page);
+    this.emitChange();
   }
 
   checkIsLastPage() {
     return this.page * this.perPage >= this.totalItems;
+  }
+
+  private emitChange() {
+    this.pageChange.emit(this.page);
   }
 }

@@ -5,6 +5,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-header',
   templateUrl: 'header.component.html',
   styleUrls: ['header.component.scss']
+
 })
 export class HeaderComponent implements OnInit {
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
