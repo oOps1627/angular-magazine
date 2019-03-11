@@ -43,11 +43,18 @@
             <div class="grid product-list" *ngIf="!loading">
               <div class="product-box" *ngFor="let product of products" routerLink="../details/{{product.id}}">
                 <mat-card class="product-card">
-                  <img mat-card-image [src]="product.imagePath" class="product-image">
+                  <div class="fix-image">
+                    <img [src]="product.imagePath" class="product-image">
+                  </div>
+                  <mat-card-title>{{product.title}}</mat-card-title>
+                  <mat-card-subtitle>Code: {{product.id}}</mat-card-subtitle>
                   <mat-card-actions>
-                    <a class="product-title">{{product.title}}</a>
-                    <br>
-                    <span>{{product.price | currency: 'UAH '}}</span>
+                    <div class="inline-actions">
+                      <span class="price">{{product.price | currency: '₴ '}}</span>
+                      <mat-icon class="star">star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon>
+                    </div>
+
+                    <button mat-button class="buy-btn"><mat-icon>shopping_cart</mat-icon> Buy</button>
                   </mat-card-actions>
                 </mat-card>
               </div>
