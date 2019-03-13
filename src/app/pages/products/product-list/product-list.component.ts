@@ -1,7 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import { Product } from '../shared/product.model';
-import { ProductService } from '../shared/product.service';
-import { FilterOptions } from '../shared/filter-options.model';
+import { Product } from '../../../core/models/product.model';
+import { ProductService } from '../../../core/services/product.service';
+import { FilterOptions } from '../../../core/models/filter-options.model';
+import { MatDialog } from '@angular/material';
+import { DialogAddToBasketComponent } from '../dialog-add-to-basket/dialog-add-to-basket.component';
 
 class SortOption {
   title: string;
@@ -26,7 +28,7 @@ export class ProductListComponent implements OnInit {
   sortOptions: SortOption[] = options;
   selectedSortOption: SortOption = this.sortOptions[0];
   order = this.selectedSortOption.order;
-  constructor (private productService: ProductService) {
+  constructor (private productService: ProductService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -58,7 +60,13 @@ export class ProductListComponent implements OnInit {
     this.loading = false;
   }
 
-  switchLoading(loading) {
+  switchLoading(loading): void {
     this.loading = loading;
+  }
+
+  openDialogAddToBasket(product): void {
+    const dialogRef = this.dialog.open(DialogAddToBasketComponent, {
+      data: product
+    });
   }
 }

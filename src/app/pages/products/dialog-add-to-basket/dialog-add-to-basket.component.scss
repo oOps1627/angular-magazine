@@ -1,0 +1,45 @@
+.wrapper {
+  padding: 0 20px 20px 20px;
+}
+
+p  {
+  text-align: center;
+}
+
+.amount-box {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: 100px;
+  }
+  .form-amount-box {
+    padding: 10px;
+    input {
+      width: 50px;
+      border-bottom: solid black 1px;
+      margin: 0 5px;
+    }
+  }
+  .total-amount {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    font-weight: 600;
+    color: green;
+  }
+}
+
+
+.mat-dialog-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  button {
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+}

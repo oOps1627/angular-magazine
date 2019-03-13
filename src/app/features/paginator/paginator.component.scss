@@ -5,15 +5,18 @@
 
 .active {
   background: #1c9c4e;
+  color: white;
 }
 
 button {
   height: 40px;
   min-width: 40px;
-  border: green solid 1px;
+  margin: 0 2px;
+  border: darkgreen solid 1px;
+  border-radius: 4px;
+  background: whitesmoke;
   font-size: 18px;
   cursor: pointer;
-  background: lightgray;
   display: flex;
   justify-content: center;
 }

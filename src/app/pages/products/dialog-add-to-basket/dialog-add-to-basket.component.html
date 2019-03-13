@@ -1,0 +1,24 @@
+<div class="wrapper">
+<mat-dialog-content>
+  <h3> Select the amount you want to add to the basket </h3>
+  <p> Selected product: {{data.title}}, code: {{data.id}}  </p>
+
+  <div class="amount-box">
+   <img src="{{data.imagePath}}" alt="{{data.title}}">
+
+    <div class="form-amount-box">
+      <button mat-button (click)="reduceAmount()"> <mat-icon>remove</mat-icon> </button>
+      <input matInput type="number" [(ngModel)]="amount">
+      <button mat-button (click)="increaseAmount()">  <mat-icon>add</mat-icon> </button>
+      <span class="total-amount">Total: {{data.price * amount | currency: ' '}} UAH</span>
+    </div>
+
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onClose()"> <mat-icon>close</mat-icon> Close </button>
+  <button mat-button (click)="addToBasket()"> <mat-icon>add_shopping_cart</mat-icon> Add </button>
+</mat-dialog-actions>
+</div>

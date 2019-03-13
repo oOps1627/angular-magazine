@@ -5,4 +5,6 @@ export class Product {
   imagePath: string;
   manufacturer: string;
   camera: string;
+  rating: number;
+  numberOfVotes: number;
 }

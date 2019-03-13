@@ -1,8 +1,6 @@
 .filter-box {
   width: 320px;
   height: auto;
-  padding: 20px;
-  text-align: center;
 }
 .drawer-container {
   height: auto; min-height: 100%;
@@ -67,15 +65,18 @@
 }
 
 .product-box {
-  cursor: pointer;
-  min-width: 220px;
+  min-width: 240px;
   height: 400px;
+  transition: transform 0.1s ease;
+  &:hover {
+    transform: scale(1.05);
+  }
 }
-
 .fix-image {
   position: relative;
   width: 100%;
   height: 220px;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   .product-image {
@@ -84,7 +85,6 @@
     box-sizing: border-box;
   }
 }
-
 .product-card {
   box-sizing: border-box;
   height: 100%;
@@ -92,7 +92,8 @@
   }
   .mat-card-title {
     font-size: 18px;
-    margin: 0;
+    cursor: pointer;
+    margin: 5px 0 0 0;
   }
   .mat-card-subtitle {
     margin: 0;
@@ -108,16 +109,56 @@
       font-size: 16px;
       padding: 5px 8px;
       &:hover {
-        background: lightgreen;
+        background: #B6F9C7;
       }
     }
   }
 }
 .inline-actions {
-  color: red;
+  width: 100%;
+  height: auto;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
 }
-.star {
+.rating-box {
+  margin-left: auto;
+  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  .stars-rating {
+    width: auto;
+    padding-bottom: 5px;
+    font-size: 12px;
+  }
+  .rating {
+    margin-left: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    color: grey;
+  }
+  .votes {
+    position: absolute;
+    top: 28px;
+    right: 0;
+    font-size: 12px;
+    color: grey;
+  }
 }
+
+.favorite {
+  width: auto;
+  height: auto;
+  margin-left: auto;
+  font-size: 40px;
+  color: orange;
+  cursor: pointer;
+  &:hover {
+    color: #FF9802;
+    transform: scale(1.1);
+  }
+}
+
 .pagination-box {
   position: relative;
   height: 6em;

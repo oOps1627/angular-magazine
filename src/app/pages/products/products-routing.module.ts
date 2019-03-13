@@ -6,13 +6,14 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductsComponent } from './products.component';
 
 const routes: Routes = [
-  { path: 'home', component: ProductsComponent, children: [
-      { path: '', redirectTo: 'products', pathMatch: 'full' },
-      { path: 'products', component: ProductListComponent },
+  { path: 'products', component: ProductsComponent, children: [
+      { path: '', redirectTo: 'list', pathMatch: 'full' },
+      { path: 'list', component: ProductListComponent },
       { path: 'details/:id', component: ProductDetailsComponent },
       ]
   },
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

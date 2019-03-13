@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FilterOptions, Checkbox, SliderPropertyList} from '../shared/filter-options.model';
-import {ProductService} from '../shared/product.service';
-import {Product} from '../shared/product.model';
+import {FilterOptions, Checkbox, SliderPropertyList} from '../../../core/models/filter-options.model';
+import {ProductService} from '../../../core/services/product.service';
+import {Product} from '../../../core/models/product.model';
 
 import {Observable} from 'rxjs';
 import {debounceTime, distinctUntilChanged, startWith, switchMap} from 'rxjs/operators';

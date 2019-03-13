@@ -41,20 +41,27 @@
         <section>
           <div class="container">
             <div class="grid product-list" *ngIf="!loading">
-              <div class="product-box" *ngFor="let product of products" routerLink="../details/{{product.id}}">
+              <div class="product-box" *ngFor="let product of products">
                 <mat-card class="product-card">
-                  <div class="fix-image">
+                  <div class="fix-image" routerLink="../details/{{product.id}}" title="{{product.title}}">
                     <img [src]="product.imagePath" class="product-image">
                   </div>
-                  <mat-card-title>{{product.title}}</mat-card-title>
+                  <mat-card-title routerLink="../details/{{product.id}}">{{product.title}}</mat-card-title>
                   <mat-card-subtitle>Code: {{product.id}}</mat-card-subtitle>
                   <mat-card-actions>
+
                     <div class="inline-actions">
                       <span class="price">{{product.price | currency: '₴ '}}</span>
-                      <mat-icon class="star">star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon><mat-icon>star</mat-icon>
+                      <div class="rating-box">
+                        <rating class="stars-rating" [(ngModel)]="product.rating" [readonly]="true" [titles]="['one', 'two', 'three', 'four', 'five']"></rating>
+                        <span class="rating">{{product.rating}}</span>
+                        <span class="votes">{{product.numberOfVotes}} votes</span>
+                      </div>
                     </div>
-
-                    <button mat-button class="buy-btn"><mat-icon>shopping_cart</mat-icon> Buy</button>
+                    <div class="inline-actions">
+                      <button mat-button class="buy-btn" (click)="openDialogAddToBasket(product)"><mat-icon>shopping_cart</mat-icon> Buy</button>
+                      <mat-icon class="favorite" title="Add to favorites">favorite_border</mat-icon>
+                    </div>
                   </mat-card-actions>
                 </mat-card>
               </div>

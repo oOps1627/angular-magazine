@@ -2,8 +2,8 @@ import {Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
 import { ActivatedRoute } from '@angular/router';
-import { Product } from '../shared/product.model';
-import { ProductService } from '../shared/product.service';
+import { Product } from '../../../core/models/product.model';
+import { ProductService } from '../../../core/services/product.service';
 
 @Component({
   selector: 'app-product-details',

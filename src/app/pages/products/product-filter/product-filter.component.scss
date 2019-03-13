@@ -1,6 +1,16 @@
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
   background-color: #1c9c4e !important;
 }
+.wrapper {
+  height: auto;
+  width: auto;
+  padding: 20px;
+  text-align: center;
+}
+.filter-container {
+  width: 100%;
+}
+
 hr {
   margin-top: 15px;
 }

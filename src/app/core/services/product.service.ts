@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Product } from './product.model';
-import { FilterOptions } from './filter-options.model';
-import { environment } from '../../../../environments/environment';
+import { Product } from '../models/product.model';
+import { FilterOptions } from '../models/filter-options.model';
+import { environment } from '../../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
