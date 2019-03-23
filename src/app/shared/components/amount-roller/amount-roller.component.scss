@@ -1,0 +1,15 @@
+.wrapper {
+  width: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  height: auto;
+  padding: 10px;
+  input {
+    width: 40px;
+    border-bottom: solid black 1px;
+    margin: 0 5px;
+  }
+  button {
+   min-width: 50px;
+  }
+}

@@ -1,0 +1,35 @@
+<div class="wrapper">
+  <div class="container">
+    <div class="item-list">
+
+      <mat-card *ngFor="let item of basket" class="item-card">
+        <div class="fix-image">
+          <img src="{{item.product.imagePath}}" alt="{{item.product.title}}"
+               routerLink="/products/details/{{item.product.id}}">
+        </div>
+
+        <div class="grid">
+          <div class="description-box">
+            <span> {{item.product.title}} </span>
+          </div>
+          <div class="buttons-box">
+            <button mat-button (click)="deleteProduct(item.product.id)">
+              <mat-icon>delete_outline</mat-icon>
+            </button>
+            <app-amount-roller [(amount)]="item.amount"></app-amount-roller>
+          </div>
+
+          <div class="price-box">
+            <span> Price: {{item.product.price | currency: '₴ '}} </span>
+            <span class="sum"> Sum: {{item.amount * item.product.price | currency: '₴ '}} </span>
+          </div>
+        </div>
+
+      </mat-card>
+    </div>
+    <span *ngIf="basket.length" class="status"> Total price: {{getTotalAmount() | currency: '₴ '}} </span>
+    <span *ngIf="!basket.length" class="status"> Basket is empty </span>
+    <button mat-button class="buy-btn">Buy</button>
+
+  </div>
+</div>

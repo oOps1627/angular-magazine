@@ -1,6 +1,7 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Product } from '../../../core/models/product.model';
+import {Component, Inject} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import {Product} from '../../../core/models/product.model';
+import {UserService} from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-dialog-add-to-basket',
@@ -11,22 +12,17 @@ export class DialogAddToBasketComponent {
   amount = 1;
 
   constructor(
+    private userService: UserService,
     public dialogRef: MatDialogRef<DialogAddToBasketComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Product) {}
 
-  increaseAmount() {
-    this.amount++;
-  }
-
-  reduceAmount() {
-    if (this.amount > 1) {
-      this.amount--;
-    }
-  }
   onClose(): void {
     this.dialogRef.close();
   }
-  addToBasket(): void {
+  addToBasket(productId: string): void {
+    this.userService.addToBasket(productId, this.amount).subscribe( () => {
+      console.log('done');
+    });
     this.dialogRef.close();
   }
 }

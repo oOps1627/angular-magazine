@@ -2,35 +2,31 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatTabsModule,
+  MatToolbarModule
+} from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { NpnSliderModule } from 'npn-slider';
+import { RatingModule } from 'ngx-rating';
 
+import { ProductsRoutingModule } from './products-routing.module';
+import { ComponentsModule } from '../../shared/components/components.module';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductsComponent } from './products.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductFilterComponent } from './product-filter/product-filter.component';
-import { ProductsRoutingModule } from './products-routing.module';
-import { ComponentsModule } from '../../shared/components/components.module';
-
-import { fakeBackendProvider } from '../../../fake-backend/fake-backend';
-// Material
-import {
-  MatButtonModule,
-  MatCheckboxModule,
-  MatCardModule,
-  MatSidenavModule,
-  MatToolbarModule,
-  MatChipsModule,
-  MatFormFieldModule,
-  MatSelectModule,
-  MatProgressSpinnerModule,
-  MatAutocompleteModule,
-  MatInputModule,
-  MatTabsModule
-} from '@angular/material';
-import { MatDialogModule} from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
-
-import { NpnSliderModule } from 'npn-slider';
-import { RatingModule } from 'ngx-rating';
 import { PaginatorComponent } from '../../features/paginator/paginator.component';
 import { DialogAddToBasketComponent } from './dialog-add-to-basket/dialog-add-to-basket.component';
 
@@ -38,26 +34,28 @@ import { DialogAddToBasketComponent } from './dialog-add-to-basket/dialog-add-to
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
     ReactiveFormsModule,
+    ProductsRoutingModule,
+    ComponentsModule,
+
     MatButtonModule,
     MatCheckboxModule,
     MatCardModule,
     MatSidenavModule,
     NpnSliderModule,
-    FormsModule,
     MatToolbarModule,
     MatChipsModule,
     MatFormFieldModule,
     MatSelectModule,
     MatIconModule,
-    ProductsRoutingModule,
-    ComponentsModule,
     MatProgressSpinnerModule,
     MatAutocompleteModule,
     MatInputModule,
     MatTabsModule,
     MatDialogModule,
-    RatingModule,
+
+    RatingModule
   ],
   declarations: [
     ProductsComponent,
@@ -66,16 +64,12 @@ import { DialogAddToBasketComponent } from './dialog-add-to-basket/dialog-add-to
     ProductFilterComponent,
 
     PaginatorComponent,
-    DialogAddToBasketComponent
+    DialogAddToBasketComponent,
   ],
-  exports: [
-  ],
-  providers: [
-    fakeBackendProvider,
-  ],
+  exports: [],
   entryComponents: [
     DialogAddToBasketComponent
-  ]
+  ],
 })
 export class ProductsModule {
 }

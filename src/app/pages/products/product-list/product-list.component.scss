@@ -12,7 +12,9 @@
 }
 
 /*FILTER TOOLBAR*/
-.product-toolbar {
+.toolbar {
+  height: auto; min-height: 50px;
+  padding: 10px;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
@@ -24,8 +26,6 @@
   padding: 5px 10px;
   span {
     margin-top: 5px;
-    display:inline-flex;
-    vertical-align: middle;
   }
   &:hover {
     color: red;

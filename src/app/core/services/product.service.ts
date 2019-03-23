@@ -4,23 +4,26 @@ import { FilterOptions } from '../models/filter-options.model';
 import { environment } from '../../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
   private productsUrl = `${environment.API_URL}/products`;
+
   constructor(private http: HttpClient) {
   }
 
   /* GET product by id */
   getProduct(id: string): Observable<Product> {
     const url = `${this.productsUrl}/${id}`;
-    return this.http.get<Product>(url).pipe(
+    return this.http.get<any>(url).pipe(
+      map(body => JSON.parse(body)),
       catchError(this.handleError<Product>())
     );
   }
+
   /* GET collection products */
   getProducts(page: number, limit: number, order: string, filterOptions?: FilterOptions): Observable<Product[]> {
     const url = `${this.productsUrl}/collect`;
@@ -48,14 +51,15 @@ export class ProductService {
         }
       }
     }
-      return this.http.get<any>(url, {params: httpParams}).pipe(
-        map((response) => {
-          let res = JSON.parse(response);
-          return res.data;
-        }),
-        catchError(this.handleError<Product[]>())
-      );
+    return this.http.get<any>(url, {params: httpParams}).pipe(
+      map(body => {
+        const r = JSON.parse(body);
+        return r.data;
+      }),
+      catchError(this.handleError<Product[]>())
+    );
   }
+
   /* GET products whose name contains search term */
   searchProducts(page: number, limit: number, order: string, term: string): Observable<Product[]> {
     if (!term.trim()) {
@@ -69,14 +73,23 @@ export class ProductService {
         .set('order', order)
         .set('q', term)
     };
-    return this.http.get<Product[]>(url, params).pipe(
+    return this.http.get<any>(url, params).pipe(
+      map(body => {
+        const r = JSON.parse(body);
+        return r.data;
+      }),
       catchError(this.handleError<Product[]>())
     );
   }
+
   /* GET options for init the filter */
   getFilterOptions(): Observable<any[]> {
     const url = `${this.productsUrl}/filter-options`;
-    return this.http.get<any[]>(url).pipe(
+    return this.http.get<any>(url).pipe(
+      map((body) => {
+        const r = JSON.parse(body);
+        return r.data;
+      }),
       catchError(this.handleError<any[]>())
     );
   }
@@ -89,12 +102,16 @@ export class ProductService {
         .set('limit', limit.toString())
         .set('order', order)
     };
-    return this.http.get<Product[]>(url, params).pipe(
+    return this.http.get<any>(url, params).pipe(
+      map(body => {
+        const r = JSON.parse(body);
+        return r.data;
+      }),
       catchError(this.handleError<any[]>())
     );
   }
 
-  private handleError<T> (result?: T) {
+  private handleError<T>(result?: T) {
     return (error: any): Observable<T> => {
       console.error(error);
       // Let the app keep running by returning an empty result

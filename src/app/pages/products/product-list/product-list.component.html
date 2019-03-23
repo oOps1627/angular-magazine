@@ -5,7 +5,7 @@
 
     <mat-drawer-content>
       <!--Toolbar-->
-      <mat-toolbar class="product-toolbar">
+      <mat-toolbar class="toolbar">
         <mat-chip-list>
           <!--FILTER TAGS-->
 
@@ -41,6 +41,7 @@
         <section>
           <div class="container">
             <div class="grid product-list" *ngIf="!loading">
+
               <div class="product-box" *ngFor="let product of products">
                 <mat-card class="product-card">
                   <div class="fix-image" routerLink="../details/{{product.id}}" title="{{product.title}}">
@@ -49,7 +50,6 @@
                   <mat-card-title routerLink="../details/{{product.id}}">{{product.title}}</mat-card-title>
                   <mat-card-subtitle>Code: {{product.id}}</mat-card-subtitle>
                   <mat-card-actions>
-
                     <div class="inline-actions">
                       <span class="price">{{product.price | currency: '₴ '}}</span>
                       <div class="rating-box">
@@ -65,6 +65,7 @@
                   </mat-card-actions>
                 </mat-card>
               </div>
+
             </div>
           </div>
         </section>

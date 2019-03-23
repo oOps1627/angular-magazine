@@ -12,7 +12,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // array in local storage for registered users
+    // array in local storage for registered user
     let users: User[] = JSON.parse(localStorage.getItem('users')) || [];
 
     const products: Product[] = [
@@ -37,19 +37,19 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
       // GET PRODUCT BY ID
       if (request.url.match(/api\/products\/\d+$/) && request.method === 'GET') {
-        // find users by id in users array
+        // find user by id in user array
         let urlParts = request.url.split('/');
         let id = urlParts[urlParts.length - 1];
-        let matchedProducts = products.filter(prod => prod.id === id );
+        let matchedProducts = products.filter(prod => prod.id === id);
         let product = matchedProducts.length ? matchedProducts[0] : null;
         if (product) {
-          return of(new HttpResponse({ status: 200, body: product }));
+          return of(new HttpResponse({status: 200, body: JSON.stringify(product)}));
         } else {
           return of(new HttpResponse({status: 404, statusText: 'URL not Found'}));
         }
       }
 
-      // GET PRODUCTS
+      // GET COLLECTION PRODUCTS
       if (request.url.endsWith('api/products/collect') && request.method === 'GET') {
         let filteredProducts = products;
         const ltePrice = +request.params.get('price[lte]');
@@ -65,10 +65,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           });
         }
         if (manufacturer) {
-            filteredProducts = filteredProducts.filter(product => {
-              let index = manufacturer.indexOf(product.manufacturer);
-              if (index !== -1) return product;
-            });
+          filteredProducts = filteredProducts.filter(product => {
+            let index = manufacturer.indexOf(product.manufacturer);
+            if (index !== -1) return product;
+          });
         }
         if (camera) {
           filteredProducts = filteredProducts.filter(product => {
@@ -80,11 +80,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         currentFilteredProducts = filteredProducts;
         let count = filteredProducts.length;
         filteredProducts = this.getProductsInPage(page, limit, filteredProducts);
-        let params = JSON.stringify({
+        let body = JSON.stringify({
           data: filteredProducts,
-          meta: { total:  count }
+          meta: {total: count}
         });
-        return of(new HttpResponse({status: 200, body: params} ));
+        return of(new HttpResponse({
+          status: 200,
+          body: body
+        }));
       }
 
       // SEARCH PRODUCTS
@@ -97,7 +100,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         foundProducts = this.sortProducts(order, foundProducts);
         currentFilteredProducts = foundProducts;
         foundProducts = this.getProductsInPage(page, limit, foundProducts);
-        return of(new HttpResponse({status: 200, body: foundProducts} ));
+
+        let body = JSON.stringify({
+          data: foundProducts
+        });
+        return of(new HttpResponse({
+          status: 200,
+          body: body
+        }));
       }
 
       // SORT PRODUCTS
@@ -108,13 +118,20 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         let sortedProducts = currentFilteredProducts;
         sortedProducts = this.sortProducts(order, sortedProducts);
         sortedProducts = this.getProductsInPage(page, limit, sortedProducts);
-        return of(new HttpResponse({status: 200, body: sortedProducts} ));
+
+        let body = JSON.stringify({
+          data: sortedProducts
+        });
+        return of(new HttpResponse({
+          status: 200,
+          body: body
+        }));
       }
 
       // GET FILTER OPTIONS
       if (request.url.endsWith('api/products/filter-options') && request.method === 'GET') {
         const prices: number[] = [];
-        products.forEach( product => {
+        products.forEach(product => {
           prices.push(product.price);
         });
         const minPrice = Math.min.apply(null, prices);
@@ -123,118 +140,126 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           {type: 'slider', property: 'price', value: {lte: minPrice, gte: maxPrice}},
           {type: 'checkbox', property: 'manufacturer', value: ['Xiaomi', 'Samsung', 'Iphone', 'Nokia', 'Huawei', 'Fly', 'Meizu']},
           {type: 'checkbox', property: 'camera', value: ['8', '11', '12', '13', '15']}
-          ];
-        return of(new HttpResponse({status: 200, body: options }));
+        ];
+
+        let body = JSON.stringify({
+          data: options
+        });
+        return of(new HttpResponse({
+          status: 200,
+          body: body
+        }));
       }
 
       // ***** USERS *******
 
       // REGISTER
-      if (request.url.endsWith('api/users/register') && request.method === 'POST') {
+      if (request.url.endsWith('api/user/register') && request.method === 'POST') {
         console.log('WORK!');
-        // get new users object from post body
+        // get new user object from post body
         let newUser: User = request.body;
 
-        // validation
-        let duplicateUser = users.filter(user => user.username === newUser.username ).length;
+        let duplicateUser = users.filter(user => user.username === newUser.username).length;
         if (duplicateUser) {
-          return throwError({ error: { message: 'Username "' + newUser.username + '" is already taken' } });
+          return throwError({error: {message: 'Username "' + newUser.username + '" is already taken'}});
         }
-        // save new users
         newUser.id = users.length + 1 + '';
+        newUser.basket = [];
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
 
-        // respond 200 OK
-        return of(new HttpResponse({ status: 200 }));
+        return of(new HttpResponse({status: 200}));
       }
 
       // AUTH
-      if (request.url.endsWith('api/users/login') && request.method === 'POST') {
-        // find if any users matches login credentials
-        let filteredUsers = users.filter(user => {
+      if (request.url.endsWith('api/user/login') && request.method === 'POST') {
+        let filteredUsers: User[] = users.filter(user => {
           return user.username === request.body.username && user.password === request.body.password;
         });
 
         if (filteredUsers.length) {
-          // if login details are valid return 200 OK with users details and fake jwt token
           let user = filteredUsers[0];
-          let body = {
+
+          let body = JSON.stringify({
             id: user.id,
             username: user.username,
             firstName: user.firstName,
-            token: 'fake-jwt-token'
-          };
-
-          return of(new HttpResponse({ status: 200, body: body }));
+            token: user.id // fake token
+          });
+          return of(new HttpResponse({
+            status: 200,
+            body: body
+          }));
         } else {
-          // else return 400 bad request
-           return throwError({ error: { message: 'Username or password is incorrect' } });
+          return throwError({error: {message: 'Username or password is incorrect'}});
         }
       }
 
-      // DELETE users
-      if (request.url.match(/\/users\/\d+$/) && request.method === 'DELETE') {
-        // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
-        if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-          // find users by id in users array
-          let urlParts = request.url.split('/');
-          let id = urlParts[urlParts.length - 1];
-          for (let i = 0; i < users.length; i++) {
-            let user = users[i];
-            if (user.id === id) {
-              // delete users
-              users.splice(i, 1);
-              localStorage.setItem('users', JSON.stringify(users));
-              break;
-            }
-          }
-        }
+      // GET BASKET
+      if (request.url.endsWith('api/user/basket') && request.method === 'GET') {
+        const userId = request.headers.get('Authorization');
+        const currentUser = users.find(user => user.id === userId);
+
+        return of(new HttpResponse({
+          status: 200,
+          body: JSON.stringify(currentUser.basket)
+        }));
       }
 
-        // GET USER by id
-        if (request.url.match(/\/users\/\d+$/) && request.method === 'GET') {
-          // check for fake auth token in header and return users if valid, this security is implemented server side in a real application
-          if (request.headers.get('Authorization') === 'Bearer fake-jwt-token') {
-            // find users by id in users array
-            let urlParts = request.url.split('/');
-            let id = urlParts[urlParts.length - 1];
-            let matchedUsers = users.filter(user => { return user.id === id });
-            let user = matchedUsers.length ? matchedUsers[0] : null;
+      // ADD TO BASKET
+      if (request.url.endsWith('api/user/basket') && request.method === 'POST') {
+        const productId = request.body.productId;
+        const amount = request.body.amount;
+        const userId = request.headers.get('Authorization');
 
-            return of(new HttpResponse({ status: 200, body: user }));
-          } else {
-            // return 401 not authorised if token is null or invalid
-            return throwError({ error: { message: 'Unauthorised' } });
-          }
+        const currentUser = users.find(user => user.id === userId);
+        const selectedProduct = products.find(product => product.id === productId);
+        currentUser.basket.push({
+          product: selectedProduct,
+          amount: amount
+        });
+        localStorage.removeItem('users');
+        localStorage.setItem('users', JSON.stringify(users)); // update local storage
+        return of(new HttpResponse({status: 200}));
+      }
 
-          // respond 200 OK
-          return of(new HttpResponse({ status: 200 }));
-        } else {
-          // return 401 not authorised if token is null or invalid
-          return throwError({ error: { message: 'Unauthorised' } });
-        }
+      // DELETE FROM BASKET
+      if (request.url.endsWith('api/user/basket') && request.method === 'DELETE') {
+        const productId = request.params.get('productId');
+        const userId = request.headers.get('Authorization');
+
+        const currentUser = users.find(user => user.id === userId);
+        const selectedProduct = currentUser.basket.find(item => item.product.id === productId);
+        const index = currentUser.basket.indexOf(selectedProduct);
+        currentUser.basket.splice(index, 1);
+        localStorage.removeItem('users');
+        localStorage.setItem('users', JSON.stringify(users)); // update local storage
+        return of(new HttpResponse({
+          status: 200,
+          body: JSON.stringify(currentUser.basket)
+        }));
+      }
 
       // pass through any requests not handled above
       return next.handle(request);
 
     }))
 
-// call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
+    // call materialize and dematerialize to ensure delay even if an error is thrown (https://github.com/Reactive-Extensions/RxJS/issues/648)
       .pipe(materialize())
       .pipe(delay(500))
       .pipe(dematerialize());
   }
 
   sortProducts(order: string, products: Product[]): Product[] {
-      let sortedProducts: Product[] = [];
-      if (order[order.length - 1] === '-') {
-        order = order.slice(0, -1);
-        sortedProducts = products.sort((a, b) => a[order] < b[order] ? 1 : a[order] === b[order] ? 0 : -1);
-      } else {
-        sortedProducts = products.sort((a, b) => a[order] > b[order] ? 1 : a[order] === b[order] ? 0 : -1);
-      }
-      return sortedProducts;
+    let sortedProducts: Product[] = [];
+    if (order[order.length - 1] === '-') {
+      order = order.slice(0, -1);
+      sortedProducts = products.sort((a, b) => a[order] < b[order] ? 1 : a[order] === b[order] ? 0 : -1);
+    } else {
+      sortedProducts = products.sort((a, b) => a[order] > b[order] ? 1 : a[order] === b[order] ? 0 : -1);
+    }
+    return sortedProducts;
   }
 
   getProductsInPage(page: number, limit: number, products: Product[]): Product[] {

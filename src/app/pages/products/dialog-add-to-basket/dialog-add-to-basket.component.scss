@@ -16,18 +16,9 @@ p  {
   img {
     width: 100px;
   }
-  .form-amount-box {
-    padding: 10px;
-    input {
-      width: 50px;
-      border-bottom: solid black 1px;
-      margin: 0 5px;
-    }
-  }
   .total-amount {
     display: block;
-    position: absolute;
-    bottom: 0;
+    padding: 10px;
     font-weight: 600;
     color: green;
   }

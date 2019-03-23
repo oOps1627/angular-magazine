@@ -1,8 +1,7 @@
-import {Component, OnInit } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from '../../core/services/auth.service';
+import {Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {catchError} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +29,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const username = this.loginForm.controls['username'].value;
       const password = this.loginForm.controls['password'].value;
-      this.authService.login(username, password).subscribe(data => {
+      this.authService.login(username, password).subscribe(user => {
           this.router.navigate(['/']);
         },
         err => {

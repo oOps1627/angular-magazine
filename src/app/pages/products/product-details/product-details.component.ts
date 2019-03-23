@@ -1,9 +1,9 @@
-import {Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
 
-import { ActivatedRoute } from '@angular/router';
-import { Product } from '../../../core/models/product.model';
-import { ProductService } from '../../../core/services/product.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Product} from '../../../core/models/product.model';
+import {ProductService} from '../../../core/services/product.service';
 
 @Component({
   selector: 'app-product-details',
@@ -12,7 +12,7 @@ import { ProductService } from '../../../core/services/product.service';
 })
 export class ProductDetailsComponent implements OnInit {
   product: Product;
-  constructor(private route: ActivatedRoute, private productService: ProductService, private location: Location) {
+  constructor(private route: ActivatedRoute, private productService: ProductService, private location: Location, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class ProductDetailsComponent implements OnInit {
       if (product) {
         this.product = product;
       } else {
-       window.location.href = './404';
+       window.location.href = '/404';
       }
     });
   }
