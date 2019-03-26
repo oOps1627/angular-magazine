@@ -53,7 +53,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       if (request.url.endsWith('api/products/collect') && request.method === 'GET') {
         let filteredProducts = products;
         const prices = +request.params.get('price-range').split('-');
-        console.log(prices);
+        console.log('we');
         const ltePrice = +request.params.get('price[lte]');
         const gtePrice = +request.params.get('price[gte]');
         const manufacturer = request.params.getAll('manufacturer');

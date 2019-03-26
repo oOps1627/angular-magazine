@@ -29,27 +29,37 @@ export class ProductService {
   /* GET collection products */
   getProducts(page: number, limit: number, order: string, filterOptions?: FilterOptions): Observable<Product[]> {
     const url = `${this.productsUrl}/collect`;
-    let httpParams = new HttpParams();
-    let paramsForUrl = {};
+
+    let httpParams = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString())
+      .set('order', order);
+
     if (filterOptions) {
-      for (const propName in filterOptions.sliders) { // make GET params of sliders
+      for (const propName in filterOptions.sliders) {
         if (filterOptions.sliders.hasOwnProperty(propName) && filterOptions.sliders[propName].checkValues()) {
-          paramsForUrl[propName + '-range'] = `${filterOptions.sliders[propName].lte}-${filterOptions.sliders[propName].gte}`;
-          httpParams = httpParams.set(propName + '-range', `${filterOptions.sliders[propName].lte}-${filterOptions.sliders[propName].gte}`);
+          httpParams = httpParams
+            .set(propName + '-range', `${filterOptions.sliders[propName].lte}-${filterOptions.sliders[propName].gte}`);
         }
       }
-      for (const propName in filterOptions.checkboxes) { // make GET params of checkboxes
+      for (const propName in filterOptions.checkboxes) {
         if (filterOptions.checkboxes.hasOwnProperty(propName)) {
           filterOptions.checkboxes[propName].forEach((elem) => {
-            paramsForUrl[propName] ? paramsForUrl[propName].push(elem.name.toString()) : paramsForUrl[propName] = [elem.name.toString()];
-            httpParams.set(propName, elem.name.toString());
+            if (httpParams.has(propName)) {
+              httpParams = httpParams.append(propName.toString(), elem.name.toString());
+            } else {
+              httpParams = httpParams.set(propName.toString(), elem.name.toString());
+            }
           });
         }
       }
     }
-    this.router.navigate(['/'], {queryParams: paramsForUrl});
     return this.http.get<any>(url, {params: httpParams}).pipe(
-      map(body => JSON.parse(body)),
+      map(body => {
+        console.log('wwe');
+        const r = JSON.parse(body);
+        return r.data;
+      }),
       catchError(this.handleError<Product[]>())
     );
 
