@@ -28,7 +28,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       {title: 'Meizu M3 Note', id: '10', price: 3500, imagePath: 'assets/images/nopicture.gif', manufacturer: 'Meizu', camera: '13', rating: 4.5, numberOfVotes: 7},
       {title: 'Nokia 6.1', id: '11', price: 14300, imagePath: 'assets/images/nokia_6.1.jpg', manufacturer: 'Nokia', camera: '15', rating: 4.5, numberOfVotes: 6},
       {title: 'Fly IQ4315', id: '12', price: 2500, imagePath: 'assets/images/fly_4315.jpg', manufacturer: 'Fly', camera: '9', rating: 4.4, numberOfVotes: 2}
-      ];
+    ];
 
     let currentFilteredProducts: Product[] = products;
 
@@ -52,8 +52,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       // GET COLLECTION PRODUCTS
       if (request.url.endsWith('api/products/collect') && request.method === 'GET') {
         let filteredProducts = products;
-        const prices = +request.params.get('price-range').split('-');
-        console.log('we');
+        const prices = request.params.get('price-range');
         const ltePrice = +request.params.get('price[lte]');
         const gtePrice = +request.params.get('price[gte]');
         const manufacturer = request.params.getAll('manufacturer');
@@ -61,9 +60,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const page = +request.params.get('page');
         const limit = +request.params.get('limit');
         const order = request.params.get('order');
-        if (ltePrice && gtePrice) {
+        if (prices) {
           filteredProducts = filteredProducts.filter(product => {
-            return product.price >= ltePrice && product.price <= gtePrice;
+            return product.price >= +prices[0] && product.price <= +prices[1];
           });
         }
         if (manufacturer) {

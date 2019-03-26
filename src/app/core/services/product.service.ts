@@ -29,7 +29,7 @@ export class ProductService {
   /* GET collection products */
   getProducts(page: number, limit: number, order: string, filterOptions?: FilterOptions): Observable<Product[]> {
     const url = `${this.productsUrl}/collect`;
-
+    let paramsForUrl = {};
     let httpParams = new HttpParams()
       .set('page', page.toString())
       .set('limit', limit.toString())
@@ -38,25 +38,36 @@ export class ProductService {
     if (filterOptions) {
       for (const propName in filterOptions.sliders) {
         if (filterOptions.sliders.hasOwnProperty(propName) && filterOptions.sliders[propName].checkValues()) {
-          httpParams = httpParams
-            .set(propName + '-range', `${filterOptions.sliders[propName].lte}-${filterOptions.sliders[propName].gte}`);
+          const property = propName + '-range';
+          const value = `${filterOptions.sliders[propName].lte}-${filterOptions.sliders[propName].gte}`;
+          httpParams = httpParams.set(property, value);
+          paramsForUrl[property] = value;
         }
       }
       for (const propName in filterOptions.checkboxes) {
         if (filterOptions.checkboxes.hasOwnProperty(propName)) {
           filterOptions.checkboxes[propName].forEach((elem) => {
+            const property = propName.toString();
+            const value = elem.name.toString();
             if (httpParams.has(propName)) {
-              httpParams = httpParams.append(propName.toString(), elem.name.toString());
+              httpParams = httpParams.append(property, value);
+              paramsForUrl[property].push(value);
             } else {
-              httpParams = httpParams.set(propName.toString(), elem.name.toString());
+              httpParams = httpParams.set(property, value);
+              paramsForUrl[property] = [value];
             }
           });
         }
       }
     }
+    this.route.queryParamMap.subscribe(
+      params => {
+        console.log(params.getAll('price-range'));
+      }
+    );
+    this.router.navigate(['/'], {queryParams: paramsForUrl});
     return this.http.get<any>(url, {params: httpParams}).pipe(
       map(body => {
-        console.log('wwe');
         const r = JSON.parse(body);
         return r.data;
       }),
