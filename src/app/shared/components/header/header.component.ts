@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../core/services/auth.service';
-import { ProductService } from '../../../core/services/product.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +10,7 @@ import { ProductService } from '../../../core/services/product.service';
 export class HeaderComponent implements OnInit {
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
   isAuth = false;
-  constructor (private authService: AuthService, private productService: ProductService) {}
+  constructor (private authService: AuthService) {}
 
   ngOnInit(): void {
     if (this.authService.currentUserValue) {

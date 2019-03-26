@@ -242,11 +242,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }));
       }
 
-      if (request.url.includes('api/products/test') && request.method === 'GET') {
-        console.log(request.url);
-        return of(new HttpResponse({status: 200}));
-      }
-
       // pass through any requests not handled above
       return next.handle(request);
 
