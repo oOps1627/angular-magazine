@@ -69,4 +69,5 @@ export class ProductListComponent implements OnInit {
       data: product
     });
   }
+
 }

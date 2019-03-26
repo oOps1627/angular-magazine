@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../core/services/auth.service';
+import { ProductService } from '../../../core/services/product.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +11,7 @@ import {AuthService} from '../../../core/services/auth.service';
 export class HeaderComponent implements OnInit {
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
   isAuth = false;
-  constructor (private authService: AuthService) {}
+  constructor (private authService: AuthService, private productService: ProductService) {}
 
   ngOnInit(): void {
     if (this.authService.currentUserValue) {
@@ -22,4 +23,5 @@ export class HeaderComponent implements OnInit {
     this.authService.logout();
     location.reload();
   }
+
 }

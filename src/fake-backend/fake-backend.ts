@@ -52,6 +52,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       // GET COLLECTION PRODUCTS
       if (request.url.endsWith('api/products/collect') && request.method === 'GET') {
         let filteredProducts = products;
+        const prices = +request.params.get('price-range').split('-');
+        console.log(prices);
         const ltePrice = +request.params.get('price[lte]');
         const gtePrice = +request.params.get('price[gte]');
         const manufacturer = request.params.getAll('manufacturer');
@@ -238,6 +240,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
           status: 200,
           body: JSON.stringify(currentUser.basket)
         }));
+      }
+
+      if (request.url.includes('api/products/test') && request.method === 'GET') {
+        console.log(request.url);
+        return of(new HttpResponse({status: 200}));
       }
 
       // pass through any requests not handled above
