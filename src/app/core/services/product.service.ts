@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, map } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 
 import { Product } from '../models/product.model';
 import { FilterOptions } from '../models/filter-options.model';
@@ -12,6 +12,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class ProductService {
+  public paramsFromUrlSubject = new ReplaySubject<any>(1);
   private productsUrl = `${environment.API_URL}/products`;
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private router: Router) {
@@ -29,43 +30,28 @@ export class ProductService {
   /* GET collection products */
   getProducts(page: number, limit: number, order: string, filterOptions?: FilterOptions): Observable<Product[]> {
     const url = `${this.productsUrl}/collect`;
-    let paramsForUrl = {};
-    let httpParams = new HttpParams()
-      .set('page', page.toString())
-      .set('limit', limit.toString())
-      .set('order', order);
+    let httpParams;
+    let objParams = {
+      page: page.toString(),
+      limit: limit.toString(),
+      order: order
+    };
+    let paramsInUrl = {};
+    this.route.queryParams.subscribe(queryParams => {
+      paramsInUrl = queryParams;
+    });
 
     if (filterOptions) {
-      for (const propName in filterOptions.sliders) {
-        if (filterOptions.sliders.hasOwnProperty(propName) && filterOptions.sliders[propName].checkValues()) {
-          const property = propName + '-range';
-          const value = `${filterOptions.sliders[propName].lte}-${filterOptions.sliders[propName].gte}`;
-          httpParams = httpParams.set(property, value);
-          paramsForUrl[property] = value;
-        }
-      }
-      for (const propName in filterOptions.checkboxes) {
-        if (filterOptions.checkboxes.hasOwnProperty(propName)) {
-          filterOptions.checkboxes[propName].forEach((elem) => {
-            const property = propName.toString();
-            const value = elem.name.toString();
-            if (httpParams.has(propName)) {
-              httpParams = httpParams.append(property, value);
-              paramsForUrl[property].push(value);
-            } else {
-              httpParams = httpParams.set(property, value);
-              paramsForUrl[property] = [value];
-            }
-          });
-        }
-      }
+      objParams = {...objParams, ...filterOptions.getObjectOptions()};
+      httpParams = new HttpParams({fromObject: objParams});
+      this.router.navigate(['/'], {queryParams: objParams});
+
+    } else if (Object.keys(paramsInUrl).length) {
+      httpParams = new HttpParams({fromObject: paramsInUrl});
+      this.paramsFromUrlSubject.next(paramsInUrl);
+    } else {
+      httpParams = new HttpParams({fromObject: objParams});
     }
-    this.route.queryParamMap.subscribe(
-      params => {
-        console.log(params.getAll('price-range'));
-      }
-    );
-    this.router.navigate(['/'], {queryParams: paramsForUrl});
     return this.http.get<any>(url, {params: httpParams}).pipe(
       map(body => {
         const r = JSON.parse(body);
@@ -73,7 +59,6 @@ export class ProductService {
       }),
       catchError(this.handleError<Product[]>())
     );
-
   }
 
   /* GET products whose name contains search term */

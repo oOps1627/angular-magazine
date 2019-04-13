@@ -1,15 +1,30 @@
 export class FilterOptions {
   checkboxes = new CheckboxPropertyList();
   sliders = new SliderPropertyList();
+
+  getObjectOptions(): any {
+    let objParams = {};
+    for (const propName of Object.keys(this.sliders)) {
+      if (this.sliders[propName].isValuesNotDefault()) {
+        objParams[propName] = `${this.sliders[propName].lte}-${this.sliders[propName].gte}`;
+      }
+    }
+    for (const propName of Object.keys(this.checkboxes)) {
+      this.checkboxes[propName].forEach((elem) => {
+        objParams[propName] ? objParams[propName].push(elem.name) : objParams[propName] = [elem.name];
+      });
+    }
+    return objParams;
+  }
 }
 
 export class Checkbox {
   name: string;
   checked: boolean;
   property?: string;
-  constructor(name) {
+  constructor(name: string, checked?: boolean) {
     this.name = name;
-    this.checked = false;
+    this.checked = checked ? checked : false;
   }
 }
 
@@ -25,13 +40,13 @@ export class Slider {
     this.gte = gte;
   }
 
-  checkValues(receivedSlider?: Slider): boolean {
+  isValuesNotDefault(defaultLte?: number, defaultGte?: number): boolean {
     let value = true;
     if (this.lte === 0 && this.gte === 0) {
       value = false;
     }
-    if (receivedSlider) {
-      if (receivedSlider.lte === this.lte && receivedSlider.gte === this.gte) { // check if value is not primary
+    if (defaultLte && defaultGte) {
+      if (defaultLte === this.lte && defaultGte === this.gte) { // check if value is not primary
         value = false;
       }
     }

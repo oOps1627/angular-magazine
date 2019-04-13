@@ -52,17 +52,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
       // GET COLLECTION PRODUCTS
       if (request.url.endsWith('api/products/collect') && request.method === 'GET') {
         let filteredProducts = products;
-        const prices = request.params.get('price-range');
-        const ltePrice = +request.params.get('price[lte]');
-        const gtePrice = +request.params.get('price[gte]');
+        let price = request.params.get('price');
         const manufacturer = request.params.getAll('manufacturer');
         const camera = request.params.getAll('camera');
         const page = +request.params.get('page');
         const limit = +request.params.get('limit');
         const order = request.params.get('order');
-        if (prices) {
+        if (price) {
+          let priceArr = price.split('-');
           filteredProducts = filteredProducts.filter(product => {
-            return product.price >= +prices[0] && product.price <= +prices[1];
+            return product.price >= +priceArr[0] && product.price <= +priceArr[1];
           });
         }
         if (manufacturer) {
